@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<title>无标题文档</title>
+<style>
+		*{height:100%}
+		body {
+			margin: 0px;
+			overflow: hidden;
+			-webkit-transform:translate3d(0,0,0);
+			font-size:50px;
+			height:100%;
+		}
+		#all{
+			width:100vw;
+			height:100vh;
+			}
+</style>
+<script type="text/javascript" src="js/zepto/zepto.js"></script>
+        <script type="text/javascript" src="js/zepto/event.js"></script>
+        <script type="text/javascript" src="js/zepto/ajax.js"></script>
+        <script type="text/javascript" src="js/zepto/selector.js"></script>
+        <script type="text/javascript" src="js/touch.js"></script>
+        <script type="text/javascript" src="js/easeljs-NEXT.combined.js"></script>	
+        <script type="text/javascript" src="js/tweenjs-NEXT.combined.js"></script>	
+        <script type="text/javascript" src="js/magazine.js"></script>
+</head>
+<body>
+
+<canvas id="all"></canvas>
+</body>
+<script>
+window.orientationchange=function(event){
+	event.stopPropagation();
+	event.cancelBubble = true;
+	}
+magazine.setPage([
+	{
+		"bg":"images/a.jpg",
+		"child":[
+			{
+				"type":"text",
+				"text":"撒旦撒大事发生的方式放松放松的方式的方式",
+				"x":20,
+				"y":20,
+				"max-width":50,
+				"scaleX":3,
+				"scaleY":3,
+				"lineHeight":20,
+				"background-color":"#fff",
+				"padding":5,
+				"alpha":1,
+				"in_animate":"",
+				"on_animate":"",
+				"out_animate":""
+				},
+			{
+				"type":"image",
+				"url":"images/logo.png",
+				"x":80,
+				"y":40,
+				"scaleX":1,
+				"scaleY":1,
+				"alpha":1,
+				"in_animate":"show",
+				"on_animate":"",
+				"out_animate":"hide"
+				}
+		]
+	},
+	{"bg":"images/b.jpg"},
+	{"bg":"images/c.jpg"}
+])
+magazine.run();
+$(window).on("touchstart",function(event){
+	return false;
+	})
+$(window).on("swipeup",function(){magazine.up()});
+$(window).on("swipedown",function(){magazine.down()});
+</script>
+</html>
