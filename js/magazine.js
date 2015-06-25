@@ -15,55 +15,99 @@
 	var on_animate=[];
 	var out_animate=[];
 	var animateFn={};
-	animateFn.show=function(obj){
-		console(obj);
+	animateFn.show=function(obj,fn){
+		obj.visible=true;
+		if(fn){
+			fn();
+			}
 		}
-	animateFn.hide=function(obj){
-		console(obj);
+	animateFn.hide=function(obj,fn){
+		obj.visible=false;
+		if(fn){
+			fn();
+			}
+		}
+	animateFn.B_S=function(obj,fn){
+		var old_x=obj.scaleX;
+		var old_y=obj.scaleY;
+		createjs.Tween.get(obj, {loop: true})
+		.to({scaleX: old_x*0.9, scaleY: old_y*0.9}, 200)
+		.to({scaleX: old_x*1, scaleY: old_y*1}, 200)
+		.to({scaleX: old_x*1.1, scaleY: old_y*1.1}, 200)
+		.to({scaleX: old_x*1, scaleY: old_y*1}, 200)
+		if(fn){
+			fn();
+			}
 		}
 	pointFn["text"]=function(num,con,data){
 		if(data["max-width"]){
 			data.lineWidth=data["max-width"];
 			}
-		var baseData={"x":0,"y":0,"scaleX":1,"scaleY":1,"rotation":0,"font":"12px 'Microsoft YaHei'","color":"#000000","text":"未输入","textAlign":"left","alpha":1}
+		var baseData={"x":0,"y":0,"scaleX":1,"scaleY":1,"rotation":0,"font":"12px 'Microsoft YaHei'","lineHeight":"12","color":"#000000","text":"未输入","textAlign":"left","alpha":1,"in_animate":"show","out_animate":"hide","width":0,"height":0,"offsetX":0,"offsetY":0}
 		data=$.extend({},baseData,data);
+		var textCon=new createjs.Container();
+		textCon=$.extend(textCon,data);
+		con.addChild(textCon);
 		var changeArry="";
 		$.each(data.text,function(i,n){
 			changeArry+=n+"\t";
 			})
 			data.text=changeArry;
-		var txt = new createjs.Text();
-		txt=$.extend(txt,data);
-		con.addChild(txt);
-		if(data.in_animate){
-			in_animate[num].push({"obj":txt,"animate":data.in_animate})
+		var txt = new createjs.Text(data.text);
+		txt.font = data.font;
+		txt.color = data.color;
+		txt.text = data.text;
+		txt.lineHeight = data.lineHeight;
+		txt.textAlign = data.textAlign;
+		txt.x=data.offsetX;
+		txt.y=data.offsetY;
+		if(data.lineWidth){
+			txt.lineWidth = data.lineWidth;
 			}
-		if(data.on_animate){
-			on_animate[num].push({"obj":txt,"animate":data.on_animate})
-			}
-		if(data.out_animate){
-			out_animate[num].push({"obj":txt,"animate":data.out_animate})
-			}
+		textCon.addChildAt(txt);
 		if(data["background-color"]){
-			var bounds = txt.getBounds();
 		var pad = data.padding;
 		var bg = new createjs.Shape();
-		bg.alpha=data.alpha;
-		bg.graphics.beginFill(data["background-color"]).drawRect(bounds.x-pad,bounds.y-pad, bounds.width + pad * 2, bounds.height + pad * 2);
-		bg=$.extend(bg,data);
-		var layer=con.getChildIndex(txt);
-		con.getChildIndex(txt,layer+1);
-		con.addChildAt(bg,layer);
+		bg.graphics.beginFill(data["background-color"]).drawRect(0,0, data.width, data.height);
+		textCon.addChildAt(bg,0);
+			}
+		textCon.regX=textCon.getBounds().width*.5;
+		textCon.regY=textCon.getBounds().height*.5;
+		if(data.in_animate){
+			in_animate[num].push({"obj":textCon,"animate":data.in_animate})
+			}
+		if(data.on_animate){
+			if(animateFn[data.on_animate]){
+				animateFn[data.on_animate](textCon);
+				}
+			}
+		if(data.out_animate){
+			out_animate[num].push({"obj":textCon,"animate":data.out_animate})
 			}
 		};
 	pointFn["image"]=function(num,con,data){
-		var baseData={"x":0,"y":0,"scaleX":1,"scaleY":1,"rotation":0,"alpha":1}
+		var baseData={"x":0,"y":0,"scaleX":1,"scaleY":1,"rotation":0,"alpha":1,"in_animate":"show","out_animate":"hide"}
 		data=$.extend({},baseData,data);
 		var bitmap = new createjs.Bitmap(data.url);
+		bitmap.image.onload=function(){
+			bitmap.regX=bitmap.getBounds().width*.5;
+			bitmap.regY=bitmap.getBounds().height*.5;
+			}
 		bitmap=$.extend(bitmap,data);
 		con.addChild(bitmap);
+		if(data.in_animate){
+			in_animate[num].push({"obj":bitmap,"animate":data.in_animate})
+			}
+		if(data.on_animate){
+			if(animateFn[data.on_animate]){
+				animateFn[data.on_animate](bitmap);
+				}
+			}
+		if(data.out_animate){
+			out_animate[num].push({"obj":bitmap,"animate":data.out_animate})
+			}
 		}
-	createjs.Ticker.setFPS(48)
+	createjs.Ticker.setFPS(24)
     	createjs.Ticker.on("tick",tick);
 		function tick(event){
 			stage.update();
@@ -81,15 +125,18 @@
 			var con=changeCanvas.getContext("2d");
 			con.drawImage(img,0,0,canvas.width,canvas.height);
 			newimg.src=changeCanvas.toDataURL("image/jpeg");
-			$(window).on("resize",function(){
-				changeCanvas.width=canvas.width;
+			
+			function orientationChange(){
+			 canvas.width=$(window).width();
+		canvas.height=$(window).height();
+ 			changeCanvas.width=canvas.width;
 			changeCanvas.height=canvas.height;
 			con=changeCanvas.getContext("2d");
 			con.drawImage(img,0,0,canvas.width,canvas.height);
 			newimg.src=changeCanvas.toDataURL("image/jpeg");
-				})
-			
-			bg.y=num*stage.height;
+}   
+window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", orientationChange, false); 
+
 			}
 			img.src=url;
 		}
@@ -113,6 +160,7 @@
 			out_animate[i]=[];
 			containArry[i]=new createjs.Container();
 			rollContair.addChild(containArry[i]);
+			containArry[i].y=i*canvas.height;
 			creatBg(i,containArry[i],n.bg);
 			if(n.child&&n.child.length){
 				$.each(n.child,function(u,v){
@@ -124,15 +172,39 @@
 			});
 		}
 	function changePage(num){
-		console.log(pageNum)
-		console.log(out_animate[pageNum])
-		$.each(out_animate[pageNum],function(i,n){
+		function in_call_back(){}
+		function in_page(){
+			$.each(in_animate[pageNum],function(i,n){
 			if(animateFn[n.animate]){
-				animateFn[n.animate](n.obj);
+				animateFn[n.animate](n.obj,in_call_back);
 				};
 			});
-		pageNum=num;
-		createjs.Tween.get(rollContair).to({y:-pageNum*stage.height}, 500, createjs.Ease.backOut);
+			}
+		function run_page(){
+			pageNum=num;	
+		createjs.Tween.get(rollContair).to({y:-pageNum*stage.height}, 500, createjs.Ease.backOut).call(in_page,[]);
+			}
+		function out_call_back(){
+			out_count++;
+			if(out_count==out_animate[pageNum].length){
+				run_page();
+				}
+			}
+		if(out_animate[pageNum].length){
+			var out_count=0;
+			$.each(out_animate[pageNum],function(i,n){
+			if(animateFn[n.animate]){
+				animateFn[n.animate](n.obj,out_call_back);
+				};
+			});
+			}else{
+				run_page();
+				}
+		
+		
+		
+		
+			
 		}
 	magazine.run=function(){
 		init();

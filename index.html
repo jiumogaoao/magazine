@@ -32,52 +32,374 @@
 <canvas id="all"></canvas>
 </body>
 <script>
-window.orientationchange=function(event){
-	event.stopPropagation();
-	event.cancelBubble = true;
-	}
 magazine.setPage([
 	{
-		"bg":"images/a.jpg",
+		"bg":"images/pageA.jpg",
 		"child":[
 			{
 				"type":"text",
-				"text":"撒旦撒大事发生的方式放松放松的方式的方式",
-				"x":20,
-				"y":20,
-				"max-width":50,
-				"scaleX":3,
-				"scaleY":3,
-				"lineHeight":20,
-				"background-color":"#fff",
-				"padding":5,
-				"alpha":1,
-				"in_animate":"",
-				"on_animate":"",
-				"out_animate":""
-				},
-			{
-				"type":"image",
-				"url":"images/logo.png",
-				"x":80,
-				"y":40,
+				"text":"不花钱",
+				"x":120,
+				"y":100,
+				"width":200,
+				"height":75,
+				"offsetX":10,
+				"offsetY":0,
+				"font":"50px 'Microsoft YaHei'",
+				"max-width":200,
 				"scaleX":1,
 				"scaleY":1,
+				"lineHeight":70,
+				"background-color":"rgba(255,255,255,0.3)",
+				"on_animate":"",
+				"alpha":1
+				},
+			{
+				"type":"text",
+				"text":'送你互联网私人旅游“俱乐部”',
+				"x":155,
+				"y":170,
+				"width":285,
+				"height":35,
+				"offsetX":10,
+				"offsetY":5,
+				"font":"16px 'Microsoft YaHei'",
+				"max-width":280,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":12,
+				"background-color":"rgba(255,255,255,0.3)",
+				"padding":10,
+				"on_animate":"",
+				"alpha":1
+				}
+		]
+	},
+	{"bg":"images/pageB.jpg","child":[
+		{
+				"type":"image",
+				"url":"images/pic1.jpg",
+				"x":185,
+				"y":140,
+				"scaleX":.4,
+				"scaleY":.4,
+				"alpha":1,
+				"in_animate":"show",
+				"on_animate":"",
+				"out_animate":"hide"
+				},
+		{
+				"type":"text",
+				"text":"想做旅游",
+				"x":165,
+				"y":310,
+				"font":"54px 'Microsoft YaHei'",
+				"max-width":300,
+				"offsetX":28,
+				"offsetY":12,
+				"scaleX":1,
+				"scaleY":1,
+				"width":320,
+				"height":100,
+				"lineHeight":70,
+				"color":"#ff5400",
+				"background-color":"rgba(255,255,255,0.3)",
+				"on_animate":"",
+				"alpha":1
+				},
+			{
+				"type":"text",
+				"text":'租房、水电、员工、办执照！太多麻烦，太多费用！',
+				"x":157,
+				"y":395,
+				"font":"16px 'Microsoft YaHei'",
+				"max-width":280,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":20,
+				"background-color":"rgba(255,255,255,0.3)",
+				"textAlign":"center",
+				"on_animate":"",
+				"width":320,
+				"height":53,
+				"offsetX":160,
+				"offsetY":-10,
+				"alpha":1
+				}	]},
+	{"bg":"images/pageC.jpg","child":[
+		{
+				"type":"text",
+				"text":"旅博汇旅行网",
+				"x":230,
+				"y":210,
+				"font":"24px 'Microsoft YaHei'",
+				"max-width":300,
+				"offsetX":10,
+				"offsetY":12,
+				"scaleX":1,
+				"scaleY":1,
+				"width":225,
+				"height":60,
+				"lineHeight":70,
+				"color":"#fff",
+				"background-color":"rgba(255,255,255,0.3)",
+				"on_animate":"",
+				"alpha":1
+				},
+		{
+				"type":"text",
+				"text":"是一个专为各类个性旅游爱好者开辟的旅游平台，只要你有想法，只要你有朋友，不用投入费用，只要投入人脉，就可以拥有属于自己的网上私人旅游会所！",
+				"x":239,
+				"y":335,
+				"font":"18px 'Microsoft YaHei'",
+				"max-width":220,
+				"offsetX":10,
+				"offsetY":-10,
+				"scaleX":1,
+				"scaleY":1,
+				"width":225,
+				"height":200,
+				"lineHeight":25,
+				"color":"#fff",
+				"background-color":"rgba(255,255,255,0.3)",
+				"on_animate":"",
+				"alpha":1
+				}
+	]},
+	{"bg":"images/pageD.jpg","child":[
+		
+				{
+				"type":"image",
+				"url":"images/pic2.jpg",
+				"x":185,
+				"y":400,
+				"scaleX":.5,
+				"scaleY":.5,
+				"alpha":1,
+				"in_animate":"show",
+				"on_animate":"",
+				"out_animate":"hide"
+				},
+				{
+				"type":"text",
+				"text":"适合人群",
+				"x":100,
+				"y":100,
+				"font":"24px 'Microsoft YaHei'",
+				"max-width":300,
+				"offsetX":10,
+				"offsetY":12,
+				"scaleX":1,
+				"scaleY":1,
+				"width":300,
+				"height":300,
+				"lineHeight":70,
+				"color":"#ff5400",
+				"background-color":"rgba(255,255,255,0.5)",
+				"on_animate":"",
+				"alpha":1
+				},
+				{
+				"type":"text",
+				"text":"热爱旅游，不爱坐班，崇尚自由，勇于创业，时间碎片化的人。这是一个可以轻松积攒财富的事业！",
+				"x":177,
+				"y":185,
+				"font":"22px 'Microsoft YaHei'",
+				"max-width":280,
+				"offsetX":10,
+				"offsetY":-10,
+				"scaleX":1,
+				"scaleY":1,
+				"width":300,
+				"height":130,
+				"lineHeight":25,
+				"color":"#ff5400",
+				"on_animate":"",
+				"alpha":1
+				},
+				{
+				"type":"image",
+				"url":"images/logo.png",
+				"x":265,
+				"y":90,
+				"scaleX":.5,
+				"scaleY":.5,
 				"alpha":1,
 				"in_animate":"show",
 				"on_animate":"",
 				"out_animate":"hide"
 				}
-		]
-	},
-	{"bg":"images/b.jpg"},
-	{"bg":"images/c.jpg"}
+	]},
+	{"bg":"images/pageE.jpg","child":[
+		{
+				"type":"image",
+				"url":"images/pic3.jpg",
+				"x":185,
+				"y":130,
+				"scaleX":1.2,
+				"scaleY":.5,
+				"alpha":1,
+				"in_animate":"show",
+				"on_animate":"",
+				"out_animate":"hide"
+				},
+		{
+				"type":"text",
+				"text":"如何成为旅游达人",
+				"x":200,
+				"y":280,
+				"font":"30px 'Microsoft YaHei'",
+				"max-width":330,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":70,
+				"on_animate":"",
+				"alpha":1
+				},
+		{
+				"type":"text",
+				"text":"请点击随后发给你的",
+				"x":200,
+				"y":320,
+				"font":"20px 'Microsoft YaHei'",
+				"max-width":330,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":70,
+				"on_animate":"",
+				"alpha":1
+				},
+		{
+				"type":"text",
+				"text":"“用户注册——旅博汇”的链接。",
+				"x":200,
+				"y":350,
+				"font":"20px 'Microsoft YaHei'",
+				"max-width":400,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":70,
+				"on_animate":"",
+				"alpha":1
+				},
+		{
+				"type":"text",
+				"text":"并请关注旅博汇",
+				"x":200,
+				"y":380,
+				"font":"20px 'Microsoft YaHei'",
+				"max-width":400,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":70,
+				"on_animate":"",
+				"alpha":1
+				},
+		{
+				"type":"text",
+				"text":"www.lvbh.cn",
+				"x":200,
+				"y":410,
+				"font":"20px 'Microsoft YaHei'",
+				"max-width":400,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":70,
+				"on_animate":"",
+				"alpha":1
+				}
+	]},
+	{"bg":"images/pageF.jpg","child":[
+		{
+				"type":"image",
+				"url":"images/pic4.jpg",
+				"x":185,
+				"y":130,
+				"scaleX":.6,
+				"scaleY":.6,
+				"alpha":1,
+				"in_animate":"show",
+				"on_animate":"",
+				"out_animate":"hide"
+				},
+		{
+				"type":"text",
+				"text":"如何邀请你的朋友加入圈子\n1、电脑上登录会员\n2、点击进入“我的旅博汇”\n3、点击进入“我的账号”\n手机扫描“邀请二维码”\n5、发送二维码链接给你想邀请加入您的圈子的朋友\n6、根据电脑上提示，完善您本人的会员资料",
+				"x":190,
+				"y":370,
+				"font":"20px 'Microsoft YaHei'",
+				"max-width":350,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":25,
+				"color":"#fff",
+				"on_animate":"",
+				"alpha":1
+				}
+	]},
+	{"bg":"images/pageG.jpg",child:[
+		{
+				"type":"image",
+				"url":"images/logo.png",
+				"x":200,
+				"y":90,
+				"scaleX":.7,
+				"scaleY":.7,
+				"alpha":1,
+				"in_animate":"show",
+				"on_animate":"",
+				"out_animate":"hide"
+				},
+		{
+				"type":"text",
+				"text":"玩着玩着就赚钱了！",
+				"x":190,
+				"y":270,
+				"font":"30px 'Microsoft YaHei'",
+				"max-width":350,
+				"scaleX":1,
+				"scaleY":1,
+				"lineHeight":25,
+				"color":"#0c529e",
+				"on_animate":"",
+				"background-color":"rgba(255,255,255,0.3)",
+				"width":350,
+				"height":50,
+				"alpha":1,
+				"offsetX":5,
+				"offsetY":3
+				},
+		{
+				"type":"text",
+				"text":"旅博汇旅行网\nwww.lvbh.cn",
+				"x":180,
+				"y":370,
+				"font":"35px 'Microsoft YaHei'",
+				"max-width":450,
+				"scaleX":1,
+				"scaleY":1,
+				"textAlign":"center",
+				"lineHeight":35,
+				"color":"#ff5400",
+				"on_animate":"",
+				"background-color":"rgba(255,255,255,0.3)",
+				"width":350,
+				"height":85,
+				"alpha":1,
+				"offsetX":180,
+				"offsetY":3
+				}
+	]},
 ])
 magazine.run();
 $(window).on("touchstart",function(event){
 	return false;
 	})
-$(window).on("swipeup",function(){magazine.up()});
-$(window).on("swipedown",function(){magazine.down()});
+$(window).on("swipeup",function(e){
+	magazine.up();
+	});
+$(window).on("swipedown",function(e){
+	magazine.down();
+	});
 </script>
 </html>
