@@ -91,7 +91,7 @@ magazine.setPage([
 		{
 				"type":"text",
 				"text":"想做旅游",
-				"x":165,
+				"x":158,
 				"y":310,
 				"font":"54px 'Microsoft YaHei'",
 				"max-width":300,
@@ -100,7 +100,7 @@ magazine.setPage([
 				"scaleX":1,
 				"scaleY":1,
 				"width":320,
-				"height":100,
+				"height":150,
 				"lineHeight":70,
 				"color":"#ff5400",
 				"background-color":"rgba(255,255,255,0.3)",
@@ -117,11 +117,8 @@ magazine.setPage([
 				"scaleX":1,
 				"scaleY":1,
 				"lineHeight":20,
-				"background-color":"rgba(255,255,255,0.3)",
 				"textAlign":"center",
 				"on_animate":"",
-				"width":320,
-				"height":53,
 				"offsetX":160,
 				"offsetY":-10,
 				"alpha":1
@@ -246,7 +243,7 @@ magazine.setPage([
 		{
 				"type":"text",
 				"text":"如何成为旅游达人",
-				"x":200,
+				"x":185,
 				"y":280,
 				"font":"30px 'Microsoft YaHei'",
 				"max-width":330,
@@ -258,53 +255,17 @@ magazine.setPage([
 				},
 		{
 				"type":"text",
-				"text":"请点击随后发给你的",
-				"x":200,
-				"y":320,
-				"font":"20px 'Microsoft YaHei'",
-				"max-width":330,
-				"scaleX":1,
-				"scaleY":1,
-				"lineHeight":70,
-				"on_animate":"",
-				"alpha":1
-				},
-		{
-				"type":"text",
-				"text":"“用户注册——旅博汇”的链接。",
-				"x":200,
-				"y":350,
+				"text":"请点击随后发给你的\n“用户注册——旅博汇”的链接。\n并请关注旅博汇\nwww.lvbh.cn",
+				"x":350,
+				"y":360,
+				"offsetX":10,
+				"offsetY":-10,
+				"textAlign":"center",
 				"font":"20px 'Microsoft YaHei'",
 				"max-width":400,
 				"scaleX":1,
 				"scaleY":1,
-				"lineHeight":70,
-				"on_animate":"",
-				"alpha":1
-				},
-		{
-				"type":"text",
-				"text":"并请关注旅博汇",
-				"x":200,
-				"y":380,
-				"font":"20px 'Microsoft YaHei'",
-				"max-width":400,
-				"scaleX":1,
-				"scaleY":1,
-				"lineHeight":70,
-				"on_animate":"",
-				"alpha":1
-				},
-		{
-				"type":"text",
-				"text":"www.lvbh.cn",
-				"x":200,
-				"y":410,
-				"font":"20px 'Microsoft YaHei'",
-				"max-width":400,
-				"scaleX":1,
-				"scaleY":1,
-				"lineHeight":70,
+				"lineHeight":25,
 				"on_animate":"",
 				"alpha":1
 				}
@@ -325,7 +286,7 @@ magazine.setPage([
 		{
 				"type":"text",
 				"text":"如何邀请你的朋友加入圈子\n1、电脑上登录会员\n2、点击进入“我的旅博汇”\n3、点击进入“我的账号”\n手机扫描“邀请二维码”\n5、发送二维码链接给你想邀请加入您的圈子的朋友\n6、根据电脑上提示，完善您本人的会员资料",
-				"x":190,
+				"x":180,
 				"y":370,
 				"font":"20px 'Microsoft YaHei'",
 				"max-width":350,
@@ -353,7 +314,7 @@ magazine.setPage([
 		{
 				"type":"text",
 				"text":"玩着玩着就赚钱了！",
-				"x":190,
+				"x":175,
 				"y":270,
 				"font":"30px 'Microsoft YaHei'",
 				"max-width":350,
@@ -392,13 +353,57 @@ magazine.setPage([
 	]},
 ])
 magazine.run();
-$(window).on("touchstart",function(event){
-	return false;
+$(window).on("touchstart",function(e){
+	if ( e && e.stopPropagation ){
+//因此它支持W3C的stopPropagation()方法
+e.stopPropagation(); }
+else{
+//否则，我们需要使用IE的方式来取消事件冒泡 
+window.event.cancelBubble = true;
+return false;}
+	//如果提供了事件对象，则这是一个非IE浏览器 
+if ( e && e.preventDefault ){ 
+//阻止默认浏览器动作(W3C) 
+e.preventDefault(); }
+else{
+//IE中阻止函数器默认动作的方式 
+window.event.returnValue = false; 
+return false;}
 	})
 $(window).on("swipeup",function(e){
+		if ( e && e.stopPropagation ){
+//因此它支持W3C的stopPropagation()方法
+e.stopPropagation(); }
+else{
+//否则，我们需要使用IE的方式来取消事件冒泡 
+window.event.cancelBubble = true;
+return false;}
+	//如果提供了事件对象，则这是一个非IE浏览器 
+if ( e && e.preventDefault ){ 
+//阻止默认浏览器动作(W3C) 
+e.preventDefault(); }
+else{
+//IE中阻止函数器默认动作的方式 
+window.event.returnValue = false; 
+return false;}
 	magazine.up();
 	});
 $(window).on("swipedown",function(e){
+		if ( e && e.stopPropagation ){
+//因此它支持W3C的stopPropagation()方法
+e.stopPropagation(); }
+else{
+//否则，我们需要使用IE的方式来取消事件冒泡 
+window.event.cancelBubble = true;
+return false;}
+	//如果提供了事件对象，则这是一个非IE浏览器 
+if ( e && e.preventDefault ){ 
+//阻止默认浏览器动作(W3C) 
+e.preventDefault(); }
+else{
+//IE中阻止函数器默认动作的方式 
+window.event.returnValue = false; 
+return false;}
 	magazine.down();
 	});
 </script>

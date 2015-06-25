@@ -136,7 +136,6 @@
 			newimg.src=changeCanvas.toDataURL("image/jpeg");
 }   
 window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", orientationChange, false); 
-
 			}
 			img.src=url;
 		}
@@ -144,10 +143,6 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 		canvas = $(contain)[0];
 		canvas.width=$(window).width();
 		canvas.height=$(window).height();
-		$(window).on("resize",function(){
-			canvas.width=$(window).width();
-		canvas.height=$(window).height();
-			});
     	stage = new createjs.Stage(canvas);
 		stage.width=canvas.width;
 		stage.height=canvas.height;
