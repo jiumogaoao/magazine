@@ -39,11 +39,91 @@
 			fn();
 			}
 		}
+	animateFn.top_in=function(obj,fn){
+		var oldX=obj.x;
+		var oldY=obj.y;
+		var oldA=obj.alpha;
+		obj.alpha=0;
+		obj.y=oldY-200;
+		obj.visible=true;
+		createjs.Tween.get(obj)
+		.to({alpha: oldA, y: oldY}, 600)
+		.call(fn,[])
+		}
+	animateFn.bottom_in=function(obj,fn){
+		var oldX=obj.x;
+		var oldY=obj.y;
+		var oldA=obj.alpha;
+		obj.alpha=0;
+		obj.y=oldY+200;
+		obj.visible=true;
+		createjs.Tween.get(obj)
+		.to({alpha: oldA, y: oldY}, 600)
+		.call(fn,[])
+		}
+	animateFn.small_in=function(obj,fn){
+		var oldX=obj.scaleX;
+		var oldY=obj.scaleY;
+		var oldA=obj.alpha;
+		obj.alpha=0;
+		obj.scaleX=0;
+		obj.scaleY=0;
+		obj.visible=true;
+		createjs.Tween.get(obj)
+		.to({alpha: oldA, scaleX: oldX,scaleY: oldY}, 600)
+		.call(fn,[])
+		}
+	animateFn.left_side_in=function(obj,fn){
+		var oldSX=obj.scaleX;
+		var oldSY=obj.scaleY;
+		var oldX=obj.x;
+		var oldY=obj.y;
+		var oldA=obj.alpha;
+		obj.alpha=0;
+		obj.scaleX=0;
+		obj.scaleY=0;
+		obj.x-=200;
+		obj.y-=100;
+		obj.visible=true;
+		createjs.Tween.get(obj)
+		.to({alpha: oldA, scaleX: oldSX,scaleY: oldSY,x:oldX,y:oldY}, 600)
+		.call(fn,[])
+		}
+	animateFn.right_side_in=function(obj,fn){
+		var oldSX=obj.scaleX;
+		var oldSY=obj.scaleY;
+		var oldX=obj.x;
+		var oldY=obj.y;
+		var oldA=obj.alpha;
+		obj.alpha=0;
+		obj.scaleX=0;
+		obj.scaleY=0;
+		obj.x+=200;
+		obj.y-=100;
+		obj.visible=true;
+		createjs.Tween.get(obj)
+		.to({alpha: oldA, scaleX: oldSX,scaleY: oldSY,x:oldX,y:oldY}, 600)
+		.call(fn,[])
+		}
+	animateFn.flickered_in=function(obj,fn){
+		createjs.Tween.get(obj)
+		.wait(100)
+		.set({visible:true})
+		.wait(100)
+		.set({visible:false})
+		.wait(100)
+		.set({visible:true})
+		.wait(100)
+		.set({visible:false})
+		.wait(100)
+		.set({visible:true})
+		.call(fn,[])
+		}
 	pointFn["text"]=function(num,con,data){
 		if(data["max-width"]){
 			data.lineWidth=data["max-width"];
 			}
-		var baseData={"x":0,"y":0,"scaleX":1,"scaleY":1,"rotation":0,"font":"12px 'Microsoft YaHei'","lineHeight":"12","color":"#000000","text":"未输入","textAlign":"left","alpha":1,"in_animate":"show","out_animate":"hide","width":0,"height":0,"offsetX":0,"offsetY":0}
+		var baseData={"x":0,"y":0,"scaleX":1,"scaleY":1,"rotation":0,"font":"12px 'Microsoft YaHei'","lineHeight":"12","color":"#000000","text":"未输入","textAlign":"left","alpha":1,"in_animate":"show","out_animate":"hide","width":0,"height":0,"offsetX":0,"offsetY":0,visible:false}
 		data=$.extend({},baseData,data);
 		var textCon=new createjs.Container();
 		textCon=$.extend(textCon,data);
@@ -86,7 +166,7 @@
 			}
 		};
 	pointFn["image"]=function(num,con,data){
-		var baseData={"x":0,"y":0,"scaleX":1,"scaleY":1,"rotation":0,"alpha":1,"in_animate":"show","out_animate":"hide"}
+		var baseData={"x":0,"y":0,"scaleX":1,"scaleY":1,"rotation":0,"alpha":1,"in_animate":"show","out_animate":"hide",visible:false}
 		data=$.extend({},baseData,data);
 		var bitmap = new createjs.Bitmap(data.url);
 		bitmap.image.onload=function(){
@@ -127,8 +207,13 @@
 			newimg.src=changeCanvas.toDataURL("image/jpeg");
 			
 			function orientationChange(){
-			 canvas.width=$(window).width();
-		canvas.height=$(window).height();
+			if($(window).width()<$(window).height()){
+			canvas.width=760;
+			canvas.height=1520;
+			}else{
+				canvas.width=1520;
+			canvas.height=760;
+				}
  			changeCanvas.width=canvas.width;
 			changeCanvas.height=canvas.height;
 			con=changeCanvas.getContext("2d");
@@ -141,8 +226,14 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 		}
 	function init(){
 		canvas = $(contain)[0];
-		canvas.width=$(window).width();
-		canvas.height=$(window).height();
+		if($(window).width()<$(window).height()){
+			canvas.width=760;
+			canvas.height=1520;
+			}else{
+				canvas.width=1520;
+			canvas.height=760;
+				}
+		console.log(canvas)
     	stage = new createjs.Stage(canvas);
 		stage.width=canvas.width;
 		stage.height=canvas.height;
@@ -165,9 +256,12 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 					});
 				}
 			});
+			changePage(0);
 		}
 	function changePage(num){
-		function in_call_back(){}
+		function in_call_back(){
+			
+			}
 		function in_page(){
 			$.each(in_animate[pageNum],function(i,n){
 			if(animateFn[n.animate]){
