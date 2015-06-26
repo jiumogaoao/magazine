@@ -153,6 +153,12 @@
 			}
 		textCon.regX=textCon.getBounds().width*.5;
 		textCon.regY=textCon.getBounds().height*.5;
+		if(data.href&&data.href.length){
+ textCon.on("click", function(event) {
+     window.location.href=this.href;
+ });
+ 
+			}
 		if(data.in_animate){
 			in_animate[num].push({"obj":textCon,"animate":data.in_animate})
 			}
@@ -175,6 +181,10 @@
 			}
 		bitmap=$.extend(bitmap,data);
 		con.addChild(bitmap);
+		if(data.href&&data.href.length){
+			bitmap.on("click", function(event) {
+    	window.location.href=this.href;
+ });}
 		if(data.in_animate){
 			in_animate[num].push({"obj":bitmap,"animate":data.in_animate})
 			}

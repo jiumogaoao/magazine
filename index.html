@@ -5,17 +5,19 @@
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <title>无标题文档</title>
 <style>
-		*{height:100%}
 		body {
 			margin: 0px;
 			overflow: hidden;
 			-webkit-transform:translate3d(0,0,0);
 			font-size:50px;
-			height:100%;
 		}
 		#all{
 			width:100vw;
 			height:100vh;
+			}
+		.music img{
+			width:100vw;
+			height:15vh;
 			}
 </style>
 <script type="text/javascript" src="js/zepto/zepto.js"></script>
@@ -28,11 +30,22 @@
         <script type="text/javascript" src="js/magazine.js"></script>
 </head>
 <body>
-<audio id="video" autoplay="autoplay" loop="" style="display:none;">
-        <source src="http://img.wyaoqing.com/music/Jason Mraz - I'm Yours.mp3" id="video_url_mp3" type="audio/mpeg">
-    </audio>
+<div class="music" style="position:absolute;top:0px;right:0px;z-index:3;">
+	<img src="images/music_play.png"/>
+    <audio id="video" autoplay loop style="display:none;">
+        <source src="music/a.mp3" type="audio/mpeg"/>
+        <source src="music/a.ogg" type="audio/ogg"/>
+     </audio>
+</div>
 <canvas id="all"></canvas>
 </body>
+<script>
+var ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+			$("#all").width($(window).width())
+			$("#all").height($(window).height())
+		}
+</script>
 <script>
 magazine.setPage([
 	{
@@ -81,6 +94,7 @@ magazine.setPage([
 		{
 				"type":"image",
 				"url":"images/pic1.jpg",
+				"href":"http://www.baidu.com",
 				"x":380,
 				"y":300,
 				"scaleX":.8,
@@ -315,8 +329,8 @@ magazine.setPage([
 				"y":470,
 				"font":"60px 'Microsoft YaHei'",
 				"max-width":800,
-				"scaleX":1,
-				"scaleY":1,
+				"scaleX":.9,
+				"scaleY":.9,
 				"lineHeight":25,
 				"color":"#0c529e",
 				"on_animate":"B_S",
@@ -331,6 +345,7 @@ magazine.setPage([
 		{
 				"type":"text",
 				"text":"旅博汇旅行网\nwww.lvbh.cn",
+				"href":"http://www.baidu.com",
 				"x":450,
 				"y":870,
 				"font":"60px 'Microsoft YaHei'",
@@ -351,7 +366,7 @@ magazine.setPage([
 	]},
 ])
 magazine.run();
-$(window).on("touchstart",function(e){
+$(window).on("touchmove",function(e){
 	if ( e && e.stopPropagation ){
 //因此它支持W3C的stopPropagation()方法
 e.stopPropagation(); }
@@ -404,5 +419,42 @@ window.event.returnValue = false;
 return false;}
 	magazine.down();
 	});
+
+
+</script>
+<script>
+
+    var isaoto = 0;
+    function stop(){
+        var myVideo = document.getElementById("video");
+        if(!myVideo.paused){
+            myVideo.pause();
+            $(".music").find("img").attr("src","http://jscdn.wyaoqing.com/application/views/mobile/preview/type_4/template_62/source/music_stopv2.png");
+        } else {
+            myVideo.play();
+            $(".music").find("img").attr("src","http://jscdn.wyaoqing.com/application/views/mobile/preview/type_4/template_62/source/music_play.png");
+        }
+    }
+    function play(){
+        var myVideo = document.getElementById("video");
+        myVideo.play();
+    }
+    
+    $(".music").unbind("touchstart").bind("touchstart",function(){
+		if(isaoto ==0){
+            play();
+            isaoto = 1;
+        }else{
+			stop();
+			}
+		});
+setTimeout(function(){
+	if(isaoto ==0){
+            play();
+            isaoto = 1;
+        }else{
+			stop();
+			}
+	},5000);
 </script>
 </html>
