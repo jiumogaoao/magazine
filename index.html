@@ -15,6 +15,14 @@
 			width:100vw;
 			height:100vh;
 			}
+		#loading{
+			width:100vw;
+			height:100vh;
+			position:absolute;
+			top:0px;
+			left:0px;
+			z-index:5
+			}
 		.music img{
 			width:100vw;
 			height:15vh;
@@ -37,6 +45,7 @@
         <source src="music/a.ogg" type="audio/ogg"/>
      </audio>
 </div>
+<img id="loading" src="images/loading.gif"/>
 <canvas id="all"></canvas>
 </body>
 <script>
@@ -44,9 +53,21 @@ var ua = window.navigator.userAgent.toLowerCase();
     if(ua.match(/MicroMessenger/i) == 'micromessenger'){
 			$("#all").width($(window).width())
 			$("#all").height($(window).height())
+			$("#loading").width($(window).width())
+			$("#loading").height($(window).height())
+			$(window).on("resize",function(){
+				$("#all").width($(window).width())
+			$("#all").height($(window).height())
+			$("#loading").width($(window).width())
+			$("#loading").height($(window).height())
+				})
 		}
 </script>
 <script>
+magazine.end(function(){
+	console.log("end")
+	$("#loading").remove();
+	})
 magazine.setPage([
 	{
 		"bg":"images/pageA.jpg",
