@@ -15,6 +15,7 @@
 	var on_animate=[];
 	var out_animate=[];
 	var animateFn={};
+	var downBtn;
 	animateFn.show=function(obj,fn){
 		obj.visible=true;
 		if(fn){
@@ -266,6 +267,17 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 					});
 				}
 			});
+		downBtn= new createjs.Bitmap("images/arrow.png");
+		downBtn.scaleX=1.5
+		downBtn.scaleY=1.5
+		downBtn.x=350
+		downBtn.y=1450
+		downBtn.alpha=0
+		createjs.Tween.get(downBtn, {loop: true})
+		.to({y:1365,alpha:1}, 400)
+		.to({y:1280,alpha:0}, 400)
+		.set({y:1450,alpha:0})
+		stage.addChild(downBtn);
 			changePage(0);
 		}
 	function changePage(num){
@@ -280,7 +292,12 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 			});
 			}
 		function run_page(){
-			pageNum=num;	
+			pageNum=num;
+			if(pageNum==page.length-1){
+				downBtn.visible=false
+				}else{
+					downBtn.visible=true
+					}	
 		createjs.Tween.get(rollContair).to({y:-pageNum*stage.height}, 500, createjs.Ease.backOut).call(in_page,[]);
 			}
 		function out_call_back(){
