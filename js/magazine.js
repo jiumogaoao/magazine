@@ -15,7 +15,19 @@
 	var on_animate=[];
 	var out_animate=[];
 	var animateFn={};
+
 	var downBtn;
+
+	var pagelock=false;
+	var bg_count;
+	var bg_check=function(){
+		bg_count++;
+		if(bg_count==page.length){
+			if(endFn){endFn()}
+			}
+		}
+	var endFn=function(){console.log("end")}
+
 	animateFn.show=function(obj,fn){
 		obj.visible=true;
 		if(fn){
@@ -216,7 +228,7 @@
 			var con=changeCanvas.getContext("2d");
 			con.drawImage(img,0,0,canvas.width,canvas.height);
 			newimg.src=changeCanvas.toDataURL("image/jpeg");
-			
+			bg_check();
 			function orientationChange(){
 			if($(window).width()<$(window).height()){
 			canvas.width=760;
@@ -236,6 +248,7 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 			img.src=url;
 		}
 	function init(){
+		bg_count=0;
 		canvas = $(contain)[0];
 		if($(window).width()<$(window).height()){
 			canvas.width=760;
@@ -244,7 +257,6 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 				canvas.width=1520;
 			canvas.height=760;
 				}
-		console.log(canvas)
     	stage = new createjs.Stage(canvas);
 		stage.width=canvas.width;
 		stage.height=canvas.height;
@@ -267,6 +279,7 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 					});
 				}
 			});
+
 		downBtn= new createjs.Bitmap("images/arrow.png");
 		downBtn.scaleX=1.5
 		downBtn.scaleY=1.5
@@ -278,18 +291,28 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 		.to({y:1280,alpha:0}, 400)
 		.set({y:1450,alpha:0})
 		stage.addChild(downBtn);
+
 			changePage(0);
 		}
 	function changePage(num){
+		var in_count=0;
 		function in_call_back(){
-			
+			in_count++;
+			if(in_count==in_animate[pageNum].length){
+				pagelock=false;
+				}
 			}
 		function in_page(){
-			$.each(in_animate[pageNum],function(i,n){
+			if(in_animate[pageNum].length){
+				$.each(in_animate[pageNum],function(i,n){
 			if(animateFn[n.animate]){
 				animateFn[n.animate](n.obj,in_call_back);
 				};
 			});
+				}else{
+					pagelock=false;
+					}
+			
 			}
 		function run_page(){
 			pageNum=num;
@@ -300,6 +323,7 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 					}	
 		createjs.Tween.get(rollContair).to({y:-pageNum*stage.height}, 500, createjs.Ease.backOut).call(in_page,[]);
 			}
+		var out_count=0;
 		function out_call_back(){
 			out_count++;
 			if(out_count==out_animate[pageNum].length){
@@ -307,7 +331,6 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 				}
 			}
 		if(out_animate[pageNum].length){
-			var out_count=0;
 			$.each(out_animate[pageNum],function(i,n){
 			if(animateFn[n.animate]){
 				animateFn[n.animate](n.obj,out_call_back);
@@ -333,14 +356,28 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 		}
 	magazine.up=function(){
 		if(pageNum!=page.length-1){
+			if(pagelock){return false}
+		else{
+			pagelock=true;
+			
 			var newPage=pageNum+1;
 			changePage(newPage);
 			}
+			}
+		
 		}
 	magazine.down=function(){
 		if(pageNum!=0){
+			if(pagelock){return false}
+		else{
+			pagelock=true;
+		
 			var newPage=pageNum-1;
 			changePage(newPage);
 			}
+		}
+		}
+	magazine.end=function(fn){
+		endFn=fn;
 		}
 	})();
