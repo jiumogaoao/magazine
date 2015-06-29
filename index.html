@@ -32,6 +32,7 @@
         <script type="text/javascript" src="js/zepto/event.js"></script>
         <script type="text/javascript" src="js/zepto/ajax.js"></script>
         <script type="text/javascript" src="js/zepto/selector.js"></script>
+        <script type="text/javascript" src="js/zepto/detect.js"></script>
         <script type="text/javascript" src="js/touch.js"></script>
         <script type="text/javascript" src="js/easeljs-NEXT.combined.js"></script>	
         <script type="text/javascript" src="js/tweenjs-NEXT.combined.js"></script>	
@@ -45,12 +46,12 @@
         <source src="music/a.ogg" type="audio/ogg"/>
      </audio>
 </div>
-<img id="loading" src="images/loading.gif"/>
+<img id="loading" src="images/loading.jpg"/>
 <canvas id="all"></canvas>
 </body>
 <script>
 var ua = window.navigator.userAgent.toLowerCase();
-    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+    if($.os.android&&ua.match(/MicroMessenger/i) == 'micromessenger'){
 			$("#all").width($(window).width())
 			$("#all").height($(window).height())
 			$("#loading").width($(window).width())
