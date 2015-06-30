@@ -15,7 +15,7 @@
 	var on_animate=[];
 	var out_animate=[];
 	var animateFn={};
-
+	var loading=new createjs.Container();
 	var downBtn;
 
 	var pagelock=false;
@@ -215,7 +215,7 @@
 		function tick(event){
 			stage.update();
 		};
-	function creatBg(num,obj,url){
+	function creatBg(num,obj,url,fn){
 		var img= new Image();
 		img.crossOrigin = "Anonymous";
 		var newimg=new Image();
@@ -244,6 +244,9 @@
 			newimg.src=changeCanvas.toDataURL("image/jpeg");
 }   
 window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", orientationChange, false); 
+			if(fn){
+				fn();
+				}
 			}
 			img.src=url;
 		}
@@ -262,7 +265,54 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 		stage.height=canvas.height;
 		rollContair.height=stage.height*page.length;
 		rollContair.width=stage.width;
+		rollContair.visible=false;
 		stage.addChild(rollContair);
+		stage.addChild(loading);
+		var loadingTxt = new createjs.Text("loading...");
+		loadingTxt.font="100px 'Microsoft YaHei'";
+		loadingTxt.x=150;
+		loadingTxt.y=900;
+		stage.addChild(loadingTxt);
+		var loadingA = new createjs.Shape();
+		loadingA.graphics.beginFill("#fe7241").drawCircle(0, 0, 50);
+		console.log(loadingA)
+		loadingA.x = 60;
+		loadingA.y = 60;
+		loadingA.alpha=0.3;
+		stage.addChild(loadingA);
+		var loadingB = new createjs.Shape();
+		loadingB.graphics.beginFill("#41bdfe").drawCircle(0, 0, 50);
+		console.log(loadingB)
+		loadingB.x = 700;
+		loadingB.y = 700;
+		loadingB.alpha=0.3;
+		stage.addChild(loadingB);
+		createjs.Tween.get(loadingA, {loop: true})
+		.to({x:320,y:320,scaleX:1.3,scaleY:1.3,alpha:0.6}, 400, createjs.Ease.backOut)
+		.wait(100)
+		.to({x:60,y:700,scaleX:1,scaleY:1,alpha:0.3},400, createjs.Ease.backOut)
+		.wait(100)
+		.to({x:320,y:320,scaleX:1.3,scaleY:1.3,alpha:0.6}, 400, createjs.Ease.backOut)
+		.wait(100)
+		.to({x:60,y:60,scaleX:1,scaleY:1,alpha:0.3},400, createjs.Ease.backOut)
+		.wait(100)
+		
+		createjs.Tween.get(loadingB, {loop: true})
+		.to({x:320,y:320,scaleX:1.3,scaleY:1.3,alpha:0.6}, 400, createjs.Ease.backOut)
+		.wait(100)
+		.to({x:700,y:60,scaleX:1,scaleY:1,alpha:0.3},400, createjs.Ease.backOut)
+		.wait(100)
+		.to({x:320,y:320,scaleX:1.3,scaleY:1.3,alpha:0.6}, 400, createjs.Ease.backOut)
+		.wait(100)
+		.to({x:700,y:700,scaleX:1,scaleY:1,alpha:0.3},400, createjs.Ease.backOut)
+		.wait(100)
+		var loadCount=0;
+		function loadEnd(){
+			loadCount++;
+			if(loadCount==page.length){
+				rollContair.visible=true;
+				}
+			};
 		$.each(page,function(i,n){
 			in_animate[i]=[];
 			on_animate[i]=[];
@@ -274,7 +324,7 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 			if(n.child&&n.child.length){
 				$.each(n.child,function(u,v){
 					if(pointFn[v.type]){
-						pointFn[v.type](i,containArry[i],v)
+						pointFn[v.type](i,containArry[i],v,loadEnd)
 						}
 					});
 				}
