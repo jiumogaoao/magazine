@@ -27,7 +27,8 @@ module.exports = function(grunt){
             },
             common: {
                 files: {
-                    'dist/js/common.js': ['js/zepto/zepto.js','js/zepto/event.js','js/zepto/ajax.js','js/zepto/selector.js','js/zepto/detect.js','js/touch.js','js/easeljs-NEXT.combined.js','js/tweenjs-NEXT.combined.js','js/magazine.js']
+					'dist/js/zepto.js':['js/zepto/zepto.js','js/zepto/event.js','js/zepto/ajax.js','js/zepto/selector.js','js/zepto/detect.js'],
+                    'dist/js/common.js': ['js/touch.js','js/easeljs-NEXT.combined.js','js/tweenjs-NEXT.combined.js','js/magazine.js']
                 }
             }
         },

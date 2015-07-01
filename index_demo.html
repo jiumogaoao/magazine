@@ -14,6 +14,7 @@
 		#all{
 			width:100vw;
 			height:100vh;
+			background-color:#FBFBFB;
 			}
 		#loading{
 			width:100vw;
@@ -23,22 +24,29 @@
 			left:0px;
 			z-index:5
 			}
-		.music img{
+		.music{
 			width:100vw;
 			height:15vh;
+			position:absolute;
+			top:0px;
+			right:0px;
+			z-index:3;
 			}
 </style>
-<script type="text/javascript" src="dist/js/common.js"></script>
+<script type="text/javascript" src="js/zepto/zepto.js"></script>
+        <script type="text/javascript" src="js/zepto/event.js"></script>
+        <script type="text/javascript" src="js/zepto/ajax.js"></script>
+        <script type="text/javascript" src="js/zepto/selector.js"></script>
+        <script type="text/javascript" src="js/zepto/detect.js"></script>
+        <script type="text/javascript" src="js/touch.js"></script>
+        <script type="text/javascript" src="js/easeljs-NEXT.combined.js"></script>	
+        <script type="text/javascript" src="js/tweenjs-NEXT.combined.js"></script>	
+        <script type="text/javascript" src="js/magazine.js"></script>
 </head>
 <body>
-<div class="music" style="position:absolute;top:0px;right:0px;z-index:3;">
-	<img src="images/music_play.png"/>
-    <audio id="video" autoplay loop style="display:none;">
-        <source src="music/a.mp3" type="audio/mpeg"/>
-        <source src="music/a.ogg" type="audio/ogg"/>
-     </audio>
-</div>
 <img id="loading" src="images/loading.jpg"/>
+<img class="music" src="images/music_play.png"/>
+
 <canvas id="all"></canvas>
 </body>
 <script>
@@ -379,6 +387,7 @@ magazine.setPage([
 				}
 	]},
 ])
+magazine.setAudio("music/a.mp3");
 magazine.run();
 $(window).on("touchmove",function(e){
 	if ( e && e.stopPropagation ){
@@ -437,38 +446,16 @@ return false;}
 
 </script>
 <script>
-
-    var isaoto = 0;
-    function stop(){
-        var myVideo = document.getElementById("video");
-        if(!myVideo.paused){
-            myVideo.pause();
-            $(".music").find("img").attr("src","http://jscdn.wyaoqing.com/application/views/mobile/preview/type_4/template_62/source/music_stopv2.png");
-        } else {
-            myVideo.play();
-            $(".music").find("img").attr("src","http://jscdn.wyaoqing.com/application/views/mobile/preview/type_4/template_62/source/music_play.png");
-        }
-    }
-    function play(){
-        var myVideo = document.getElementById("video");
-        myVideo.play();
-    }
-    
-    $(".music").unbind("touchstart").bind("touchstart",function(){
-		if(isaoto ==0){
-            play();
-            isaoto = 1;
-        }else{
-			stop();
-			}
+    $(".music").on("tap",function(){
+		if(this.video){
+			this.video=false;
+			this.src="images/music_play.png";
+			magazine.audio.play();
+			}else{
+				this.video=true;
+				this.src="images/music_stopv2.png";
+				magazine.audio.pause();
+				}
 		});
-setTimeout(function(){
-	if(isaoto ==0){
-            play();
-            isaoto = 1;
-        }else{
-			stop();
-			}
-	},5000);
 </script>
 </html>

@@ -15,19 +15,12 @@
 	var on_animate=[];
 	var out_animate=[];
 	var animateFn={};
-	var loading=new createjs.Container();
 	var downBtn;
-
 	var pagelock=false;
 	var bg_count;
-	var bg_check=function(){
-		bg_count++;
-		if(bg_count==page.length){
-			if(endFn){endFn()}
-			}
-		}
 	var endFn=function(){console.log("end")}
-
+	var audio=new Audio();
+	var audioPath="";
 	animateFn.show=function(obj,fn){
 		obj.visible=true;
 		if(fn){
@@ -228,7 +221,6 @@
 			var con=changeCanvas.getContext("2d");
 			con.drawImage(img,0,0,canvas.width,canvas.height);
 			newimg.src=changeCanvas.toDataURL("image/jpeg");
-			bg_check();
 			function orientationChange(){
 			if($(window).width()<$(window).height()){
 			canvas.width=760;
@@ -267,69 +259,6 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 		rollContair.width=stage.width;
 		rollContair.visible=false;
 		stage.addChild(rollContair);
-		stage.addChild(loading);
-		var loadingTxt = new createjs.Text("loading...");
-		loadingTxt.font="100px 'Microsoft YaHei'";
-		loadingTxt.x=150;
-		loadingTxt.y=900;
-		stage.addChild(loadingTxt);
-		var loadingA = new createjs.Shape();
-		loadingA.graphics.beginFill("#fe7241").drawCircle(0, 0, 50);
-		console.log(loadingA)
-		loadingA.x = 60;
-		loadingA.y = 60;
-		loadingA.alpha=0.3;
-		stage.addChild(loadingA);
-		var loadingB = new createjs.Shape();
-		loadingB.graphics.beginFill("#41bdfe").drawCircle(0, 0, 50);
-		console.log(loadingB)
-		loadingB.x = 700;
-		loadingB.y = 700;
-		loadingB.alpha=0.3;
-		stage.addChild(loadingB);
-		createjs.Tween.get(loadingA, {loop: true})
-		.to({x:320,y:320,scaleX:1.3,scaleY:1.3,alpha:0.6}, 400, createjs.Ease.backOut)
-		.wait(100)
-		.to({x:60,y:700,scaleX:1,scaleY:1,alpha:0.3},400, createjs.Ease.backOut)
-		.wait(100)
-		.to({x:320,y:320,scaleX:1.3,scaleY:1.3,alpha:0.6}, 400, createjs.Ease.backOut)
-		.wait(100)
-		.to({x:60,y:60,scaleX:1,scaleY:1,alpha:0.3},400, createjs.Ease.backOut)
-		.wait(100)
-		
-		createjs.Tween.get(loadingB, {loop: true})
-		.to({x:320,y:320,scaleX:1.3,scaleY:1.3,alpha:0.6}, 400, createjs.Ease.backOut)
-		.wait(100)
-		.to({x:700,y:60,scaleX:1,scaleY:1,alpha:0.3},400, createjs.Ease.backOut)
-		.wait(100)
-		.to({x:320,y:320,scaleX:1.3,scaleY:1.3,alpha:0.6}, 400, createjs.Ease.backOut)
-		.wait(100)
-		.to({x:700,y:700,scaleX:1,scaleY:1,alpha:0.3},400, createjs.Ease.backOut)
-		.wait(100)
-		var loadCount=0;
-		function loadEnd(){
-			loadCount++;
-			if(loadCount==page.length){
-				rollContair.visible=true;
-				}
-			};
-		$.each(page,function(i,n){
-			in_animate[i]=[];
-			on_animate[i]=[];
-			out_animate[i]=[];
-			containArry[i]=new createjs.Container();
-			rollContair.addChild(containArry[i]);
-			containArry[i].y=i*canvas.height;
-			creatBg(i,containArry[i],n.bg);
-			if(n.child&&n.child.length){
-				$.each(n.child,function(u,v){
-					if(pointFn[v.type]){
-						pointFn[v.type](i,containArry[i],v,loadEnd)
-						}
-					});
-				}
-			});
-
 		downBtn= new createjs.Bitmap("images/arrow.png");
 		downBtn.scaleX=1.5
 		downBtn.scaleY=1.5
@@ -341,6 +270,47 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 		.to({y:1280,alpha:0}, 400)
 		.set({y:1450,alpha:0})
 		stage.addChild(downBtn);
+		var loadCount=0;
+		function loadEnd(){
+			loadCount++;
+			if(loadCount==page.length){
+				rollContair.visible=true;
+				var folderPath = audioPath.substr(0, audioPath.lastIndexOf("."));
+ 				audio.autoplay=true;
+				audio.loop=true;
+				//检测浏览器支持的类型
+				var source= document.createElement("source");
+				if (audio.canPlayType("audio/mpeg")) {
+				  source.type= "audio/mpeg";
+				  source.src = folderPath + ".mp3";
+				  console.log("mp3");
+				} else if(audio.canPlayType("audio/ogg")){
+				  source.type= "audio/ogg";
+				  source.src = folderPath + ".ogg"
+				  console.log("ogg");
+				}
+				audio.appendChild(source);
+				endFn();
+				}
+			};
+		$.each(page,function(i,n){
+			in_animate[i]=[];
+			on_animate[i]=[];
+			out_animate[i]=[];
+			containArry[i]=new createjs.Container();
+			rollContair.addChild(containArry[i]);
+			containArry[i].y=i*canvas.height;
+			creatBg(i,containArry[i],n.bg,loadEnd);
+			if(n.child&&n.child.length){
+				$.each(n.child,function(u,v){
+					if(pointFn[v.type]){
+						pointFn[v.type](i,containArry[i],v)
+						}
+					});
+				}
+			});
+
+		
 
 			changePage(0);
 		}
@@ -388,18 +358,16 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 			});
 			}else{
 				run_page();
-				}
-		
-		
-		
-		
-			
+				}	
 		}
 	magazine.run=function(){
 		init();
 		}
 	magazine.setContain=function(data){
 		contain=data;
+		}
+	magazine.setAudio=function(data){
+		audioPath=data;
 		}
 	magazine.setPage=function(data){
 		page=data;
@@ -430,4 +398,5 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 	magazine.end=function(fn){
 		endFn=fn;
 		}
+	magazine.audio=audio;
 	})();
