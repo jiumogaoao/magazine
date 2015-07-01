@@ -275,7 +275,8 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 			loadCount++;
 			if(loadCount==page.length){
 				rollContair.visible=true;
-				var folderPath = audioPath.substr(0, audioPath.lastIndexOf("."));
+				endFn();
+					var folderPath = audioPath.substr(0, audioPath.lastIndexOf("."));
  				audio.autoplay=true;
 				audio.loop=true;
 				//检测浏览器支持的类型
@@ -283,14 +284,11 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 				if (audio.canPlayType("audio/mpeg")) {
 				  source.type= "audio/mpeg";
 				  source.src = folderPath + ".mp3";
-				  console.log("mp3");
 				} else if(audio.canPlayType("audio/ogg")){
 				  source.type= "audio/ogg";
 				  source.src = folderPath + ".ogg"
-				  console.log("ogg");
 				}
 				audio.appendChild(source);
-				endFn();
 				}
 			};
 		$.each(page,function(i,n){
@@ -309,9 +307,6 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 					});
 				}
 			});
-
-		
-
 			changePage(0);
 		}
 	function changePage(num){
@@ -332,7 +327,6 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 				}else{
 					pagelock=false;
 					}
-			
 			}
 		function run_page(){
 			pageNum=num;
@@ -377,19 +371,16 @@ window.addEventListener("onorientationchange" in window ? "orientationchange" : 
 			if(pagelock){return false}
 		else{
 			pagelock=true;
-			
 			var newPage=pageNum+1;
 			changePage(newPage);
 			}
 			}
-		
 		}
 	magazine.down=function(){
 		if(pageNum!=0){
 			if(pagelock){return false}
 		else{
 			pagelock=true;
-		
 			var newPage=pageNum-1;
 			changePage(newPage);
 			}
